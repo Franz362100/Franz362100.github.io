@@ -1,114 +1,116 @@
 <!DOCTYPE html>
 <html>
-  <head>
-       <meta charset="UTF-8">
-    <title>厦门市科教文化服务机构密度</title>
-   </head>
-  
-        <style>
-      html,
-      body {
-        width: 100%;
+<head>
+<meta charset="UTF-8">
+<title>厦门市科教文化服务机构密度</title>
+</head>
+
+<style>
+html, body {
+	width: 100%;
 	height: 100%;
 	padding: 0;
 	margin: 0;
-	}
-      #head {
+}
+
+#head {
 	width: 100%;
 	height: 5%;
 	vertical-align: middle;
 	text-align: center;
-	background-color:#F0AD4E;
+	background-color: #F0AD4E;
 	float: left;
-	}
-        #coordsWidget {
+}
+
+#coordsWidget {
 	width: 100%;
 	height: 5%;
-        text-align: center;
+	text-align: center;
 	background-color: #FFC706;
 	float: left;
-        }
-      #viewDiv {
-        padding: 0;
-        margin: 0;
-        height: 90%;
-        width: 100%;
-      }
-    </style>
+}
 
-    <link
-      rel="stylesheet"
-      href="https://js.arcgis.com/4.15/esri/themes/light/main.css"
-    />
-    <script src="https://js.arcgis.com/4.15/"></script>
+#viewDiv {
+	padding: 0;
+	margin: 0;
+	height: 90%;
+	width: 100%;
+}
+</style>
 
-    <script>
-      require(["esri/Map", 
-      "esri/views/MapView",
-      "esri/layers/FeatureLayer",
-      "esri/widgets/Legend",
-      "esri/widgets/ScaleBar"], 
-      function(Map, MapView,FeatureLayer,Legend,ScaleBar) {
-        var featurelayer=new FeatureLayer({
-  // URL to the service
-  url: "http://www.arcgisonline.cn/server/rest/services/Hosted/%E5%8E%A6%E9%97%A8%E6%95%99%E8%82%B2/FeatureServer"
-});
-        var map = new Map({
-          basemap: "streets",
-          layers:[featurelayer]
-        });
-        
+<link rel="stylesheet"
+	href="https://js.arcgis.com/4.15/esri/themes/light/main.css" />
+<script src="https://js.arcgis.com/4.15/"></script>
 
+<script>
+	require(
+			[ "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer",
+					"esri/widgets/Legend", "esri/widgets/ScaleBar" ],
+			function(Map, MapView, FeatureLayer, Legend, ScaleBar) {
+				var featurelayer = new FeatureLayer(
+						{
+							// URL to the service
+							url : "http://www.arcgisonline.cn/server/rest/services/Hosted/%E5%8E%A6%E9%97%A8%E6%95%99%E8%82%B2/FeatureServer"
+						});
+				var map = new Map({
+					basemap : "streets",
+					layers : [ featurelayer ]
+				});
 
-        var view = new MapView({
-          container: "viewDiv",
-          map: map,
-          zoom: 11,
-          center: [118.1, 24.563] // longitude, latitude
-        });
-               var legend = new Legend({
-        view: view,
-        layerInfos: [{
-        layer: featurelayer,
-        title: "科教文化服务机构密度"
-  }]
-});
+				var view = new MapView({
+					container : "viewDiv",
+					map : map,
+					zoom : 11,
+					center : [ 118.1, 24.563 ]
+				// longitude, latitude
+				});
+				var legend = new Legend({
+					view : view,
+					layerInfos : [ {
+						layer : featurelayer,
+						title : "科教文化服务机构密度"
+					} ]
+				});
 
-       view.ui.add(legend, "bottom-right");
-       var scaleBar = new ScaleBar({
-       view: view,
-       style:"ruler",
-       unit:"metric" 
-});
-// Add widget to the bottom left corner of the view
-       view.ui.add(scaleBar, {
-       position: "bottom-left"
-       
-});
+				view.ui.add(legend, "bottom-right");
+				var scaleBar = new ScaleBar({
+					view : view,
+					style : "ruler",
+					unit : "metric"
+				});
+				// Add widget to the bottom left corner of the view
+				view.ui.add(scaleBar, {
+					position : "bottom-left"
 
-            function showCoordinates(pt) {
-        var coords = "纬度/经度：" + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) +
-            " &nbsp&nbsp&nbsp&nbsp&nbsp比例尺 1:" + Math.round(view.scale * 1) / 1 +
-            " &nbsp&nbsp&nbsp&nbsp&nbsp缩放：" + view.zoom;
-        coordsWidget.innerHTML = coords;
-      }
-        view.watch("stationary", function(isStationary) {
-        showCoordinates(view.center);
-      });
+				});
 
-      view.on("pointer-move", function(evt) {
-        showCoordinates(view.toMap({ x: evt.x, y: evt.y }));
-      });
-      });
-    </script>
-  </head>
+				function showCoordinates(pt) {
+					var coords = "纬度/经度：" + pt.latitude.toFixed(3) + " "
+							+ pt.longitude.toFixed(3)
+							+ " &nbsp&nbsp&nbsp&nbsp&nbsp比例尺 1:"
+							+ Math.round(view.scale * 1) / 1
+							+ " &nbsp&nbsp&nbsp&nbsp&nbsp缩放：" + view.zoom;
+					coordsWidget.innerHTML = coords;
+				}
+				view.watch("stationary", function(isStationary) {
+					showCoordinates(view.center);
+				});
 
-  <body>
-<div id="head">
-<font size="5" style="font-family:verdana">
-厦门市科教文化机构密度图
-</font></div>
-    <div id="viewDiv"></div>
-    <div id="coordsWidget"></div>
-  </body>
+				view.on("pointer-move", function(evt) {
+					showCoordinates(view.toMap({
+						x : evt.x,
+						y : evt.y
+					}));
+				});
+			});
+</script>
+</head>
+
+<body>
+	<div id="head">
+		<font size="5" style="font-family: verdana"> 厦门市科教文化机构密度图 </font>
+	</div>
+	<div id="viewDiv"></div>
+	<div id="coordsWidget"></div>
+</body>
 </html>
